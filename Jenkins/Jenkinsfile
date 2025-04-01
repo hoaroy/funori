@@ -10,20 +10,20 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                sh '''C:/Program Files/Git/bin/bash.exe -c "npm install"'''
+                bat "npm install"
             }
         }
 
         stage('Run Security Scan') {
             steps {
-                sh '''C:/Program Files/Git/bin/bash.exe -c "npx snyk test"'''
+                bat "npx snyk test"
             }
         }
 
         stage('Run Linter & Tests') {
             steps {
-                sh '''C:/Program Files/Git/bin/bash.exe -c "npm run lint"'''
-                sh '''C:/Program Files/Git/bin/bash.exe -c "npm test"'''
+                bat "npm run lint"
+                bat "npm test"
             }
         }
     }
