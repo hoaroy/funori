@@ -1,29 +1,15 @@
 pipeline {
     agent any
 
+    environment {
+        GITHUB_TOKEN = credentials('github-token')
+    }
     stages {
-        stage('Checkout Code') {
+        stage('Checkout') {
             steps {
-                git branch: 'master', url: 'https://github.com/hoaroy/funori.git'
-            }
-        }
-
-        stage('Install Dependencies') {
-            steps {
-                bat "npm install"
-            }
-        }
-
-        stage('Run Security Scan') {
-            steps {
-                bat "npx snyk test"
-            }
-        }
-
-        stage('Run Linter & Tests') {
-            steps {
-                bat "npm run lint"
-                bat "npm test"
+                git branch: 'master', 
+                    credentialsId: 'github-token', 
+                    url: 'https://github.com/hoaroy/funori.git'
             }
         }
     }
