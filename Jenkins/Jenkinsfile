@@ -2,10 +2,11 @@ pipeline {
     agent any
 
     environment {
-        NODEJS_HOME = tool name: 'NodeJS', type: 'jenkins.plugins.nodejs.tools.NodeJSInstallation',
-        PATH = "${NODEJS_HOME}/bin:${env.PATH}",
+        NODEJS_HOME = tool 'NodeJS'
+        PATH = "${NODEJS_HOME}/bin:${env.PATH}"
         GITHUB_TOKEN = credentials('github-token')
     }
+
     stages {
         stage('Checkout') {
             steps {
@@ -19,19 +20,16 @@ pipeline {
                 powershell 'npm install'
             }
         }
-
         stage('Run ESLint') {
             steps {
                 powershell 'npx eslint .'
             }
         }
-
         stage('Run Tests') {
             steps {
                 powershell 'npm test'
             }
         }
-
         stage('Static Analysis with Snyk') {
             steps {
                 powershell 'npx snyk code test'
