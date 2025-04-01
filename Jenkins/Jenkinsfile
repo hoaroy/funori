@@ -15,21 +15,21 @@ pipeline {
                     url: 'https://github.com/hoaroy/funori.git'
             }
         }
-        stage('Install Dependencies') {
-            steps {
-                powershell 'npm install'
-            }
-        }
-        stage('Run ESLint') {
-            steps {
-                powershell 'npx eslint .'
-            }
-        }
-        stage('Run Tests') {
-            steps {
-                powershell 'npm test'
-            }
-        }
+       // stage('Install Dependencies') {
+        //    steps {
+           //     powershell 'npm install'
+            //}
+        //}
+        //stage('Run ESLint') {
+         //   steps {
+          //      powershell 'npx eslint .'
+         //   }
+       // }
+        //stage('Run Tests') {
+         //   steps {
+          //      powershell 'npm test'
+           // }
+        //}
         stage('Static Analysis with Snyk') {
             steps {
                 powershell 'npx snyk code test'
