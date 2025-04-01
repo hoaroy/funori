@@ -2,6 +2,8 @@ pipeline {
     agent any
 
     environment {
+        NODEJS_HOME = tool name: 'NodeJS', type: 'jenkins.plugins.nodejs.tools.NodeJSInstallation',
+        PATH = "${NODEJS_HOME}/bin:${env.PATH}",
         GITHUB_TOKEN = credentials('github-token')
     }
     stages {
@@ -10,6 +12,29 @@ pipeline {
                 git branch: 'master', 
                     credentialsId: 'github-token', 
                     url: 'https://github.com/hoaroy/funori.git'
+            }
+        }
+        stage('Install Dependencies') {
+            steps {
+                powershell 'npm install'
+            }
+        }
+
+        stage('Run ESLint') {
+            steps {
+                powershell 'npx eslint .'
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                powershell 'npm test'
+            }
+        }
+
+        stage('Static Analysis with Snyk') {
+            steps {
+                powershell 'npx snyk code test'
             }
         }
     }
