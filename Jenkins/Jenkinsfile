@@ -5,6 +5,7 @@ pipeline {
         NODEJS_HOME = tool 'NodeJS'
         PATH = "${NODEJS_HOME}/bin:${env.PATH}"
         GITHUB_TOKEN = credentials('github-token')
+        SNYK_API_TOKEN = credentials('snyk-api-token')
     }
 
     stages {
@@ -15,6 +16,17 @@ pipeline {
                     url: 'https://github.com/hoaroy/funori.git'
             }
         }
+        stage('Install Snyk') {
+            steps {
+                powershell 'npm install -g snyk'
+            }
+        }
+        stage('Run Static Analysis with Snyk') {
+            steps {
+                withEnv(["SNYK_TOKEN=${SNYK_API_TOKEN}"]) {
+                    powershell 'snyk test'
+                }
+            }
        // stage('Install Dependencies') {
         //    steps {
            //     powershell 'npm install'
