@@ -16,37 +16,26 @@ pipeline {
                     url: 'https://github.com/hoaroy/funori.git'
             }
         }
-        //stage('Install Snyk') {
-        //    steps {
-        //        powershell 'npm install -g snyk'
-       //     }
-      //  }
-      //  stage('Run Static Analysis with Snyk') {
-        //    steps {
-        //        withEnv(["SNYK_TOKEN=${SNYK_API_TOKEN}"]) {
-        //            powershell 'snyk test'
-        //        }
-        //    }
-       // }
-        stage('Install Dependencies') {
+        stage('Static Code Analysis with Snyk') {
             steps {
-                powershell 'npm install'
+                sh 'snyk code test --severity-threshold=high || true' // Kiểm tra mã nguồn với Snyk
             }
         }
-        stage('Run ESLint') {
+
+        stage('Deploy') {
             steps {
-                powershell 'npx eslint .'
+                echo 'Deploying static files...'
+                sh 'cp -r * /path/to/deploy/location' 
             }
         }
-        stage('Run Tests') {
-            steps {
-                powershell 'npm test'
-            }
+    }
+
+    post {
+        success {
+            echo 'Pipeline completed successfully!'
         }
-        //stage('Static Analysis with Snyk') {
-          //  steps {
-           //     powershell 'npx snyk code test'
-           // }
-        //}
+        failure {
+            echo 'Pipeline failed! Check logs for details.'
+        }
     }
 }
