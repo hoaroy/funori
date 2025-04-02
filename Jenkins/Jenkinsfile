@@ -19,8 +19,9 @@ pipeline {
         stage('Static Code Analysis with Snyk') {
             steps {
                 powershell '''
-                                snyk code test --severity-threshold=high
-                                if ($LASTEXITCODE -ne 0) { Write-Host "Ignoring failure"; exit 0 }
+                                $SnykPath = "C:\Users\hoaro\AppData\Roaming\npm\snyk.ps1"
+                                & $SnykPath --version
+                                & $SnykPath code test --severity-threshold=high
                             '''
             }
         }
