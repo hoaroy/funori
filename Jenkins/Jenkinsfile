@@ -19,7 +19,7 @@ pipeline {
         stage('Static Code Analysis with Snyk') {
             steps {
                 powershell '''
-                                $SnykPath = "C:\Users\hoaro\AppData\Roaming\npm\snyk.ps1"
+                                $SnykPath = "C:\\Users\\hoaro\\AppData\\Roaming\\npm\\snyk.ps1"
                                 & $SnykPath --version
                                 & $SnykPath code test --severity-threshold=high
                             '''
@@ -29,7 +29,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying static files...'
-                powershell 'cp -r * /path/to/deploy/location' 
+                powershell 'cp -r * C:\\path\\to\\deploy\\location' 
             }
         }
     }
