@@ -27,6 +27,7 @@ pipeline {
                     powershell 'snyk test'
                 }
             }
+        }
        // stage('Install Dependencies') {
         //    steps {
            //     powershell 'npm install'
