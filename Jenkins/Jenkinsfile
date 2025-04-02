@@ -19,6 +19,7 @@ pipeline {
         stage('Static Code Analysis with Snyk') {
             steps {
                 powershell '''
+                                $env:SNYK_TOKEN = $env:SNYK_API_TOKEN
                                 $SnykPath = "C:\\Users\\hoaro\\AppData\\Roaming\\npm\\snyk.ps1"
                                 & $SnykPath --version
                                 & $SnykPath code test --severity-threshold=high
