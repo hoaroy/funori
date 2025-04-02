@@ -5,7 +5,7 @@ pipeline {
         NODEJS_HOME = tool 'NodeJS'
         PATH = "${NODEJS_HOME}/bin:${env.PATH}"
         GITHUB_TOKEN = credentials('github-token')
-       // SNYK_API_TOKEN = credentials('snyk-api-token')
+        SNYK_API_TOKEN = credentials('snyk-api-token')
     }
 
     stages {
@@ -18,14 +18,14 @@ pipeline {
         }
         stage('Static Code Analysis with Snyk') {
             steps {
-                sh 'snyk code test --severity-threshold=high || true' // Kiểm tra mã nguồn với Snyk
+                powershell 'snyk code test --severity-threshold=high || true' // Kiểm tra mã nguồn với Snyk
             }
         }
 
         stage('Deploy') {
             steps {
                 echo 'Deploying static files...'
-                sh 'cp -r * /path/to/deploy/location' 
+                powershell 'cp -r * /path/to/deploy/location' 
             }
         }
     }
